@@ -52,8 +52,11 @@ onMounted(() => {
 
 const init = () => {
   viewer = new Viewer('three');
-  // viewer.addAxis();
+  // 显示坐标轴
+  viewer.addAxis(); 
+  // 显示FPS 性能
   // viewer.addStats();
+  // 鼠标交互
   viewer.initRaycaster();
 
   modelLoader = new ModelLoader(viewer);
@@ -103,27 +106,12 @@ const initModel = () => {
   //   });
   //   viewer.setRaycasterObjects(list);
   // });
-
-  modelLoader.loadModelToScene('/models/plane.glb', baseModel => {
-    const model = baseModel.gltf.scene;
-    model.scale.set(0.0001 * 3, 0.0001 * 3, 0.0001 * 3)
-    model.position.set(0, 0, 0);
-    model.name = 'plane';
-    baseModel.openCastShadow();
-
-    const texture = (baseModel.object.children[0] as any).material.map;
-    console.log(texture, 'texture-------');
-    const fnOnj = planeAnimate(texture);
-    viewer.addAnimate(fnOnj);
-  });
-  
-
-  modelLoader.loadModelToScene('/models/datacenter.glb', baseModel => {
-    console.log(baseModel, '1111111');
+  //  汽车模型
+   modelLoader.loadModelToScene('/models/Lamborghini.glb', baseModel => {
     baseModel.setScalc(0.2);
     // baseModel.object.rotation.y = Math.PI / 2;
     const model = baseModel.gltf.scene;
-    model.position.set(0, 0, 0);
+    model.position.set(0.6, 0, 0.4);
     model.name = '机房';
     baseModel.openCastShadow();
 
@@ -141,6 +129,44 @@ const initModel = () => {
     viewer.setRaycasterObjects(rackList);
     
   });
+  // 地面模型
+  modelLoader.loadModelToScene('/models/plane.glb', baseModel => {
+    const model = baseModel.gltf.scene;
+    model.scale.set(0.0001 * 3, 0.0001 * 3, 0.0001 * 3)
+    model.position.set(0, 0, 0);
+    model.name = 'plane';
+    baseModel.openCastShadow();
+
+    const texture = (baseModel.object.children[0] as any).material.map;
+    console.log(texture, 'texture-------');
+    const fnOnj = planeAnimate(texture);
+    viewer.addAnimate(fnOnj);
+  });
+  
+
+  // modelLoader.loadModelToScene('/models/datacenter.glb', baseModel => {
+  //   console.log(baseModel, '1111111');
+  //   baseModel.setScalc(0.2);
+  //   // baseModel.object.rotation.y = Math.PI / 2;
+  //   const model = baseModel.gltf.scene;
+  //   model.position.set(0, 0, 0);
+  //   model.name = '机房';
+  //   baseModel.openCastShadow();
+
+  //   dataCenter = baseModel;
+  //   oldDataCenter = model.clone();
+
+  //   const rackList: any[] = [];
+  //   model.traverse(item => {
+  //     if (checkIsRack(item)) {
+  //       rackList.push(item);
+  //     }
+  //   });
+  //   // console.log(rackList, 'rackList------');
+
+  //   viewer.setRaycasterObjects(rackList);
+    
+  // });
 };
 
 const planeAnimate = (texture: any): Animate => {

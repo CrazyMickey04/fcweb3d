@@ -8,9 +8,11 @@
     }"
   >
     <div class="popover-title">
+      <!-- 弹窗标题 -->
       {{ dataRef.name }}
     </div>
     <div class="popover-content">
+       <!-- 弹窗内容 -->
       {{ 'content' }}
     </div>
   </div>

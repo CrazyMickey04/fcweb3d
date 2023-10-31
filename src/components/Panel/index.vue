@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
     <div class="panel-title">
-      发电监测
+      <slot name="title"></slot>
     </div>
     <div class="panel-content">
       <slot></slot>

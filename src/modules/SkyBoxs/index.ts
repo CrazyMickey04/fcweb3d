@@ -43,8 +43,8 @@ export default class SkyBoxs {
   private setSkybox (path: string, format = '.jpg') {
     const loaderbox = new THREE.CubeTextureLoader();
     const cubeTexture = loaderbox.load([
-      path + 'posx' + format,
-      path + 'negx' + format,
+      path + 'posx' + format, // 表示立方体贴图的正X面 右侧
+      path + 'negx' + format, // 表示立方体贴图的负X面 左侧
       path + 'posy' + format,
       path + 'negy' + format,
       path + 'posz' + format,

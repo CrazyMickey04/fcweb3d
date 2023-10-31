@@ -20,9 +20,9 @@ onMounted(() => {
 const init = () => {
   // const myChart = echarts.init(chartRef.value);
   option = {
-    color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+    color: ['#80FFA5', '#00DDFF', '#37A2FF'],
     title: {
-      text: 'Gradient Stacked Area Chart',
+      text: '',
       textStyle: {
         color: '#fff',
       },
@@ -37,10 +37,12 @@ const init = () => {
       },
     },
     legend: {
-      data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5'],
+      data: ['大保养', '小保养', '配件'],
+      textStyle: {
+        color: '#fff',
+      },
     },
     textStyle: {
-      fontSize: '0.2rem',
       color: '#fff',
     },
     grid: {
@@ -51,19 +53,21 @@ const init = () => {
     },
     xAxis: [
       {
+        name: '保养时间',
         type: 'category',
         boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data: ['20年', '21年', '22年', '23年'],
       },
     ],
     yAxis: [
       {
+        name: '保养次数',
         type: 'value',
       },
     ],
     series: [
       {
-        name: 'Line 1',
+        name: '大保养',
         type: 'line',
         stack: 'Total',
         smooth: true,
@@ -87,10 +91,10 @@ const init = () => {
         emphasis: {
           focus: 'series',
         },
-        data: [140, 232, 101, 264, 90, 340, 250],
+        data: ['1', '3', '8', '10'],
       },
       {
-        name: 'Line 2',
+        name: '小保养',
         type: 'line',
         stack: 'Total',
         smooth: true,
@@ -114,10 +118,10 @@ const init = () => {
         emphasis: {
           focus: 'series',
         },
-        data: [120, 282, 111, 234, 220, 340, 310],
+        data: ['1', '5', '10', '20'],
       },
       {
-        name: 'Line 3',
+        name: '配件',
         type: 'line',
         stack: 'Total',
         smooth: true,
@@ -141,65 +145,7 @@ const init = () => {
         emphasis: {
           focus: 'series',
         },
-        data: [320, 132, 201, 334, 190, 130, 220],
-      },
-      {
-        name: 'Line 4',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(255, 0, 135)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(135, 0, 157)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [220, 402, 231, 134, 190, 230, 120],
-      },
-      {
-        name: 'Line 5',
-        type: 'line',
-        stack: 'Total',
-        smooth: true,
-        lineStyle: {
-          width: 0,
-        },
-        showSymbol: false,
-        label: {
-          show: true,
-          position: 'top',
-        },
-        areaStyle: {
-          opacity: 0.8,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(255, 191, 0)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(224, 62, 76)',
-            },
-          ]),
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: [220, 302, 181, 234, 210, 290, 150],
+        data: ['4', '8', '10', '40'],
       },
     ],
   };

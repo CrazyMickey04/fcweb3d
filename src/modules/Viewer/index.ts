@@ -75,7 +75,7 @@ export default class Viewer {
       const funWrap = throttle(
         (event: any) => {
           this.mouseEvent = event;
-          this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1; //将鼠标事件的X坐标转换为Three.js中的坐标
           this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
           // @ts-expect-error
           this.emitter.emit(Events[eventName].raycaster, this.getRaycasterIntersectObjects());
@@ -114,19 +114,25 @@ export default class Viewer {
 
   private initViewer() {
     this.emitter = mitt();
-
+    // 获取画布dom 初始化
     this.initRenderer();
+    // 创建场景
     this.initScene();
+    // 场景灯光
     this.initLight();
+    // 添加相机
     this.initCamera();
+    // 添加控制器
     this.initControl();
+    // 加载天空盒子
     this.initSkybox();
-
+    // 检测鼠标点击、拖拽、碰撞检测等交互操作
     this.raycaster = new Raycaster();
     this.mouse = new Vector2();
 
     const animate = () => {
       if (this.isDestroy) return;
+      // 浏览器刷新
       requestAnimationFrame(animate);
 
       this.updateDom();
@@ -152,7 +158,7 @@ export default class Viewer {
     // 渲染相机
     this.camera = new PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 2000);
     //设置相机位置
-    this.camera.position.set(4, 2, -3);
+    this.camera.position.set(0, 1, 2.5);
     //设置相机方向
     this.camera.lookAt(0, 0, 0);
   }
