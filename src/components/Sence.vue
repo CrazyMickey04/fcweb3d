@@ -76,44 +76,66 @@ const init = () => {
 };
 
 const initModel = () => {
-  // modelLoader.loadModelToScene('/models/zuo.glb', baseModel => {
-  //   console.log(baseModel, '1111111');
+  modelLoader.loadModelToScene('/models/zuo.glb', baseModel => {
     
-  //   baseModel.setScalc(0.01);
-  //   const model = baseModel.gltf.scene;
-  //   office = baseModel;
-  //   office.object.rotation.y = Math.PI;
-  //   office.object.position.set(2, 0, 0);
-  //   // model.position.set(80, 2, 90);
-  //   office.object.children.forEach((item: any) => {
-  //     item.name = item.name.replace('zuo', '');
-  //     if (item.name === 'ding') {
-  //       item.name = 6;
-  //     }
-  //     item.name--;
-  //   });
-  //   office.object.children.sort((a: { name: number; }, b: { name: number; }) => a.name - b.name).forEach((v: { name: string; }) => {
-  //     v.name = 'zuo' + v.name;
-  //   });
+    baseModel.setScalc(0.01);
+    const model = baseModel.gltf.scene;
+    office = baseModel;
+    office.object.rotation.y = Math.PI;
+    office.object.position.set(1, 0, -4);
+    // model.position.set(80, 2, 90);
+    office.object.children.forEach((item: any) => {
+      item.name = item.name.replace('zuo', '');
+      if (item.name === 'ding') {
+        item.name = 6;
+      }
+      item.name--;
+    });
+    office.object.children.sort((a: { name: number; }, b: { name: number; }) => a.name - b.name).forEach((v: { name: string; }) => {
+      v.name = 'zuo' + v.name;
+    });
 
-  //   model.name = '办公楼';
-  //   baseModel.openCastShadow();
-  //   oldOffice = model.clone();
+    model.name = '办公楼';
+    baseModel.openCastShadow();
+    oldOffice = model.clone();
 
-  //   const list: THREE.Object3D<THREE.Event>[] = [];
-  //   model.traverse(item => {
-  //     list.push(item);
-  //   });
-  //   viewer.setRaycasterObjects(list);
-  // });
+    const list: THREE.Object3D<THREE.Event>[] = [];
+    model.traverse(item => {
+      list.push(item);
+    });
+    viewer.setRaycasterObjects(list);
+  });
   //  汽车模型
    modelLoader.loadModelToScene('/models/Lamborghini.glb', baseModel => {
     baseModel.setScalc(0.2);
     // baseModel.object.rotation.y = Math.PI / 2;
     const model = baseModel.gltf.scene;
-    model.position.set(0.6, 0, 0.4);
-    model.name = '机房';
+    model.position.set(0.4, 0, 0.8);
+    model.name = '汽车';
     baseModel.openCastShadow();
+
+    dataCenter = baseModel;
+    oldDataCenter = model.clone();
+
+    const rackList: any[] = [];
+    model.traverse(item => {
+      if (checkIsRack(item)) {
+        rackList.push(item);
+      }
+    });
+    // console.log(rackList, 'rackList------');
+
+    viewer.setRaycasterObjects(rackList);
+    
+  });
+  modelLoader.loadModelToScene('/models/jay_animate.glb', baseModel => {
+    baseModel.setScalc(0.2);
+    // baseModel.object.rotation.y = Math.PI / 2;
+    const model = baseModel.gltf.scene;
+    model.position.set(0, 0, 1);
+    model.name = 'jay';
+    baseModel.openCastShadow();
+    baseModel.startAnima();
 
     dataCenter = baseModel;
     oldDataCenter = model.clone();

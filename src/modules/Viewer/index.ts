@@ -158,7 +158,7 @@ export default class Viewer {
     // 渲染相机
     this.camera = new PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 2000);
     //设置相机位置
-    this.camera.position.set(0, 1, 2.5);
+    this.camera.position.set(0, 0.4, 2.5);
     //设置相机方向
     this.camera.lookAt(0, 0, 0);
   }
