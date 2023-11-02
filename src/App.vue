@@ -1,11 +1,10 @@
 <template>
   <div class="main">
-    <Layout></Layout>
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Layout from './layout/index.vue';
 
 </script>
 

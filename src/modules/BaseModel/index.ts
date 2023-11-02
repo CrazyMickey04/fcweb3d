@@ -17,12 +17,13 @@ export default class BaseModel {
   public mixer!: THREE.AnimationMixer;
   public clock: THREE.Clock;
   public animaObject!: Animate;
+  public position !: THREE.Vector3;
 
-  constructor(gltf: GLTF, viewer: Viewer) {
+  constructor(gltf: GLTF, viewer: Viewer, position: THREE.Vector3) {
     this.gltf = gltf;
     this.viewer = viewer;
     this.object = gltf.scene || gltf;
-
+    this.position = new THREE.Vector3();
     this.clock = new THREE.Clock();
   }
   /**

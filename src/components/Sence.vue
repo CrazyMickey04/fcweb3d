@@ -44,7 +44,7 @@ let isModelSelectName = false;
 onMounted(() => {
   init();
   initModel();
-
+  new Viewer('three');
   viewer.scene.traverse((item: THREE.Object3D) => {
     console.log(item, '0000000000');
   });
@@ -76,35 +76,35 @@ const init = () => {
 };
 
 const initModel = () => {
-  modelLoader.loadModelToScene('/models/zuo.glb', baseModel => {
+  // modelLoader.loadModelToScene('/models/zuo.glb', baseModel => {
     
-    baseModel.setScalc(0.01);
-    const model = baseModel.gltf.scene;
-    office = baseModel;
-    office.object.rotation.y = Math.PI;
-    office.object.position.set(1, 0, -4);
-    // model.position.set(80, 2, 90);
-    office.object.children.forEach((item: any) => {
-      item.name = item.name.replace('zuo', '');
-      if (item.name === 'ding') {
-        item.name = 6;
-      }
-      item.name--;
-    });
-    office.object.children.sort((a: { name: number; }, b: { name: number; }) => a.name - b.name).forEach((v: { name: string; }) => {
-      v.name = 'zuo' + v.name;
-    });
+  //   baseModel.setScalc(0.01);
+  //   const model = baseModel.gltf.scene;
+  //   office = baseModel;
+  //   office.object.rotation.y = Math.PI;
+  //   office.object.position.set(1, 0, -4);
+  //   // model.position.set(80, 2, 90);
+  //   office.object.children.forEach((item: any) => {
+  //     item.name = item.name.replace('zuo', '');
+  //     if (item.name === 'ding') {
+  //       item.name = 6;
+  //     }
+  //     item.name--;
+  //   });
+  //   office.object.children.sort((a: { name: number; }, b: { name: number; }) => a.name - b.name).forEach((v: { name: string; }) => {
+  //     v.name = 'zuo' + v.name;
+  //   });
 
-    model.name = '办公楼';
-    baseModel.openCastShadow();
-    oldOffice = model.clone();
+  //   model.name = '办公楼';
+  //   baseModel.openCastShadow();
+  //   oldOffice = model.clone();
 
-    const list: THREE.Object3D<THREE.Event>[] = [];
-    model.traverse(item => {
-      list.push(item);
-    });
-    viewer.setRaycasterObjects(list);
-  });
+  //   const list: THREE.Object3D<THREE.Event>[] = [];
+  //   model.traverse(item => {
+  //     list.push(item);
+  //   });
+  //   viewer.setRaycasterObjects(list);
+  // });
   //  汽车模型
    modelLoader.loadModelToScene('/models/Lamborghini.glb', baseModel => {
     baseModel.setScalc(0.2);
@@ -128,15 +128,15 @@ const initModel = () => {
     viewer.setRaycasterObjects(rackList);
     
   });
-  modelLoader.loadModelToScene('/models/jay_animate.glb', baseModel => {
+  modelLoader.loadModelToScene('/models/jay_animate_walk.glb', baseModel => {
     baseModel.setScalc(0.2);
     // baseModel.object.rotation.y = Math.PI / 2;
     const model = baseModel.gltf.scene;
-    model.position.set(0, 0, 1);
+    model.position.set(0, 0, 2);
     model.name = 'jay';
     baseModel.openCastShadow();
     baseModel.startAnima();
-
+    console.log('动画片断',baseModel.gltf.animations)
     dataCenter = baseModel;
     oldDataCenter = model.clone();
 
@@ -147,10 +147,57 @@ const initModel = () => {
       }
     });
     // console.log(rackList, 'rackList------');
+    // moveModel(baseModel.position)
+    var moveDistance = 0.005; // 模型每次移动的距离
+
+    document.addEventListener('keydown', function (event) {
+      var keyCode = event.keyCode;
+      // W键：向前移动
+      if (keyCode === 87) {
+        baseModel.position.z -= moveDistance;
+        baseModel.startAnima(1);
+      }
+
+      // S键：向后移动
+      if (keyCode === 83) {
+        baseModel.position.z += moveDistance;
+        baseModel.startAnima(1);
+      }
+
+      // A键：向左移动
+      if (keyCode === 65) {
+        baseModel.position.x -= moveDistance;
+        baseModel.startAnima(1);
+      }
+
+      // D键：向右移动
+      if (keyCode === 68) {
+        baseModel.position.x += moveDistance;
+        baseModel.startAnima(1);
+      }
+      console.log(baseModel.position)
+    });
+    document.addEventListener('keyup', function (event) {
+      baseModel.startAnima(0);
+    });
+    const fnOnj = animateMove(model, baseModel.position);
+    viewer.addAnimate(fnOnj);
 
     viewer.setRaycasterObjects(rackList);
     
   });
+  const animateMove = (model: THREE.Group, modelPosition: THREE.Vector3)=> {
+
+
+    const animateFn = {
+      fun: () => {
+        model.position.copy(modelPosition);
+      },
+      content: viewer,
+    };
+    return animateFn;
+
+  }
   // 地面模型
   modelLoader.loadModelToScene('/models/plane.glb', baseModel => {
     const model = baseModel.gltf.scene;
@@ -190,7 +237,34 @@ const initModel = () => {
     
   // });
 };
+const moveModel = (modelPosition: THREE.Vector3) => {
+  var moveDistance = 0.1; // 模型每次移动的距离
 
+  document.addEventListener('keydown', function (event) {
+    var keyCode = event.keyCode;
+
+    // W键：向前移动
+    if (keyCode === 87) {
+      modelPosition.z -= moveDistance;
+    }
+
+    // S键：向后移动
+    if (keyCode === 83) {
+      modelPosition.z += moveDistance;
+    }
+
+    // A键：向左移动
+    if (keyCode === 65) {
+      modelPosition.x -= moveDistance;
+    }
+
+    // D键：向右移动
+    if (keyCode === 68) {
+      modelPosition.x += moveDistance;
+    }
+    console.log(modelPosition)
+  });
+};
 const planeAnimate = (texture: any): Animate => {
     console.log(texture, 'texture');
     texture.wrapS = THREE.RepeatWrapping;
@@ -256,10 +330,13 @@ const onMouseClick = (intersects: THREE.Intersection[]) => {
 };
 
 function checkIsRack (obj: any): boolean {
-  return checkNameIncludes(obj, 'rack');
+  console.log(obj)
+  return checkNameIncludes(obj, '3D');
 }
 
 const onMouseMove = (intersects: THREE.Intersection[]) => {
+  console.log('onMouseMove')
+  console.log(intersects)
   if (!intersects.length) {
     popoverRef.value.setShow(false);
     boxHelperWrap.setVisible(false);
@@ -270,7 +347,7 @@ const onMouseMove = (intersects: THREE.Intersection[]) => {
   
   let selectedObjectName = '';
   const findClickModel = (object: any) => {
-    if (object.name.includes('rack')) {
+    if (object.name.includes('3D')) {
       selectedObjectName = object.name;
       return;
     }
@@ -293,7 +370,7 @@ const onMouseMove = (intersects: THREE.Intersection[]) => {
   console.log(selectedObjectName, '--selectedObjectName---');
   console.log(selectedObject, '------selectedObject---------');
   const rack = findParent(selectedObject, checkIsRack);
-  console.log(rack, '-------rack---------');
+  console.log(rack, '-------3D---------');
   if (rack) {
     
     boxHelperWrap.attach(rack);
