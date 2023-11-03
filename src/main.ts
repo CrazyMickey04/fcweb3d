@@ -26,6 +26,13 @@ const router = createRouter({
       hidden: true,
       meta: { title: '404' },
     },
+    {
+      path: '/roam',
+      component: () => import('@/roam/index.vue'),
+      name: 'roam',
+      hidden: true,
+      meta: { title: 'roam' },
+    },
   ],
 });
 const app = createApp(App);

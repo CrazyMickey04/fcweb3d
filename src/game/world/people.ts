@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { AnimationAction, AnimationClip, AnimationMixer, BoxGeometry, Mesh, MeshNormalMaterial, Quaternion, Scene, Vector3 } from 'three';
 import { Game } from '../index';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-
+import { Octree } from 'three/examples/jsm/math/Octree';
 enum PeopleStatus {
   IDLE = 'Armature|mixamo.com|Layer0',
   WALK = 'walk',
@@ -15,6 +15,7 @@ export class People extends EventEmitter {
   game: Game;
   scene: Scene;
   model!: GLTF;
+  octree!: Octree;
   mixer!: AnimationMixer;
   animationMap: Map<string, AnimationAction> = new Map();
   activeAction!: AnimationAction;
@@ -28,6 +29,7 @@ export class People extends EventEmitter {
   constructor() {
     super();
     this.game = Game.getInstance();
+    this.octree = new Octree();
     this.scene = this.game.gameScene.scene;
     this.init();
   }
@@ -39,7 +41,7 @@ export class People extends EventEmitter {
   }
 
   initModel() {
-    this.model = this.game.resource.getModel('jay_animate_walk') as GLTF;
+    this.model = this.game.resource.getModel('jay_animate_walk2') as GLTF;
     this.model.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
         item.castShadow = true;
@@ -54,10 +56,13 @@ export class People extends EventEmitter {
       const action = this.mixer.clipAction(clip);
       this.animationMap.set(clip.name, action);
     });
+    this.model.scene.position.x = -50;
+    this.model.scene.position.z = 30;
     this.scene.add(this.model.scene);
   }
   initSHModel() {
     this.model = this.game.resource.getModel('shanghai') as GLTF;
+    this.octree.fromGraphNode(this.model.scene);
     console.log(this.model);
     this.model.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
@@ -152,9 +157,9 @@ export class People extends EventEmitter {
       this.model.scene.quaternion.rotateTowards(this.quaternion, 0.5);
       let speed = 0;
       if (this.status === PeopleStatus.WALK) {
-        speed = this.walkVelocity * delta * 0.001;
+        speed = this.walkVelocity * delta * 0.005;
       } else if (this.status === PeopleStatus.RUN) {
-        speed = this.runVelocity * delta * 0.001;
+        speed = this.runVelocity * delta * 0.005;
       }
 
       camera.getWorldDirection(this.walkDirection);
@@ -166,7 +171,7 @@ export class People extends EventEmitter {
       const moveZ = this.walkDirection.z * speed;
       this.model.scene.position.x += moveX;
       this.model.scene.position.z += moveZ;
-
+      console.log(this.model.scene.position);
       camera.position.x += moveX;
       camera.position.z += moveZ;
       if (this.game.gameControls.controls) {

@@ -26,7 +26,7 @@ export class Grid extends EventEmitter {
     this.mesh = new Mesh(geometry, material);
     this.mesh.rotation.x = Math.PI * 0.5;
     this.mesh.receiveShadow = true;
-    this.scene.add(this.mesh);
+    // this.scene.add(this.mesh);
   }
 
   update() { }
