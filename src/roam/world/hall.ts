@@ -18,7 +18,7 @@ export class Hall extends EventEmitter {
     this.scene = this.game.gameScene.scene;
     this.octree = new Octree();
     this.init();
-  }
+  }        
 
   init() {
     const model = this.resource.models.find(item => item.userData.name === 'gallery') as GLTF;

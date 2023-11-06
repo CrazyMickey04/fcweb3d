@@ -15,8 +15,8 @@ export class Skull extends EventEmitter {
   }
 
   init() {
-    this.model = this.game.resource.getModel('skull_downloadable') as GLTF;
-    this.model.scene.position.set(-3.8, 1.5, -3.7);
+    this.model = this.game.resource.getModel('Lamborghini') as GLTF;
+    this.model.scene.position.set(-3.8, 0.2, -3.7);
     this.model.scene.name = 'skull';
     this.model.scene.userData.name = 'skull';
     this.scene.add(this.model.scene);

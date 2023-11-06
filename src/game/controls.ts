@@ -15,7 +15,7 @@ export class GameControls extends EventEmitter {
     );
     this.controls.enableDamping = true;
     this.controls.enablePan = false;
-    this.controls.enableZoom = false;
+    this.controls.enableZoom = true;
     // this.controls.maxPolarAngle = Math.PI * 0.4;
     // this.controls.minPolarAngle = Math.PI * 0.1;
   }

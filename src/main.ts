@@ -13,7 +13,6 @@ const router = createRouter({
           path: '/home',
           component: () => import('@/layout/index.vue'),
           name: '首页',
-          hidden: true,
           meta: { title: '首页' },
         },
       ],
@@ -22,16 +21,20 @@ const router = createRouter({
     {
       path: '/game',
       component: () => import('@/game/index.vue'),
-      name: '404',
-      hidden: true,
-      meta: { title: '404' },
+      name: 'game',
+      meta: { title: 'game' },
     },
     {
       path: '/roam',
       component: () => import('@/roam/index.vue'),
       name: 'roam',
-      hidden: true,
       meta: { title: 'roam' },
+    },
+    {
+      path: '/carshow',
+      component: () => import('@/carshow/index.vue'),
+      name: 'carshow',
+      meta: { title: 'carshow' },
     },
   ],
 });

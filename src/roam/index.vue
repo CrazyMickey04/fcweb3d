@@ -1,33 +1,20 @@
 <script setup lang="ts">
-import Typewriter from 'typewriter-effect/dist/core';
 import { ref, onMounted } from 'vue';
 import Preload from './components/Preload.vue';
 import { Game } from './index';
 import { AudioHowl } from './utils/audio';
+import { useRouter } from 'vue-router';
 
 const showGreet = ref(false);
 const showPointer = ref(false);
 const showAgree = ref(false);
 const audio = new AudioHowl(['talk1.m4a']);
+
+const router = useRouter();
+
 onMounted(() => {
   audio.load('talk1.m4a');
 });
-const handleTalkSkull = () => {
-  const typewriter = new Typewriter(document.querySelector('.greet-content'), {
-    loop: false,
-    delay: 300,
-  });
-  typewriter
-    .typeString('啊~~~你好啊，进入地牢的人。好久没看见活生生的人了，原谅老朽的话多了不少...<br />')
-    .typeString('你能帮我出去看看嘛，外面的那只老鸟转来转去，烦死了。<br />')
-    .callFunction(() => {
-      setTimeout(() => {
-        showGreet.value = false;
-      });
-    })
-    .start();
-  audio.play('talk1.m4a');
-};
 
 const handleAgree = () => {
   showAgree.value = false;
@@ -37,10 +24,8 @@ const onStart = (game: Game) => {
   showPointer.value = true;
   showAgree.value = true;
   game.gameWorld.on('talk', () => {
-    showGreet.value = true;
-    setTimeout(() => {
-      handleTalkSkull();
-    }, 500);
+    router.push({ path: '/carshow' });
+    // audio.play('talk1.m4a');
   });
 };
 </script>
