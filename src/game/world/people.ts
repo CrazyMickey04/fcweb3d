@@ -15,6 +15,8 @@ export class People extends EventEmitter {
   game: Game;
   scene: Scene;
   model!: GLTF;
+  FcModel!: GLTF;
+  SHmodel!: GLTF;
   octree!: Octree;
   mixer!: AnimationMixer;
   animationMap: Map<string, AnimationAction> = new Map();
@@ -33,9 +35,9 @@ export class People extends EventEmitter {
     this.scene = this.game.gameScene.scene;
     this.init();
   }
-
   init() {
     this.initSHModel();
+    this.initFCModel();
     this.initModel();
     this.initEvents();
   }
@@ -61,20 +63,34 @@ export class People extends EventEmitter {
     this.scene.add(this.model.scene);
   }
   initSHModel() {
-    this.model = this.game.resource.getModel('shanghai') as GLTF;
-    this.octree.fromGraphNode(this.model.scene);
-    console.log(this.model);
-    this.model.scene.traverse(item => {
+    this.SHmodel = this.game.resource.getModel('shanghai') as GLTF;
+    this.octree.fromGraphNode(this.SHmodel.scene);
+    console.log(this.SHmodel);
+    this.SHmodel.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
         item.castShadow = true;
         item.receiveShadow = true;
       }
     });
-    this.model.scene.position.y = 34.42;
-    this.model.scene.scale.set(100, 100, 100);
-    this.scene.add(this.model.scene);
+    this.SHmodel.scene.position.y = 34.42;
+    this.SHmodel.scene.scale.set(100, 100, 100);
+    this.scene.add(this.SHmodel.scene);
   }
-
+  initFCModel() {
+    this.FcModel = this.game.resource.getModel('fcbox') as GLTF;
+    this.octree.fromGraphNode(this.FcModel.scene);
+    this.FcModel.scene.traverse(item => {
+      if ((item as Mesh).isMesh) {
+        item.castShadow = true;
+        item.receiveShadow = true;
+      }
+    });
+    this.FcModel.scene.name = 'fcbox';
+    this.FcModel.scene.position.set(35, 0, 306);
+    this.FcModel.scene.scale.set(100, 100, 100);
+    this.FcModel.scene.scale.set(100, 100, 100);
+    this.scene.add(this.FcModel.scene);
+  }
   initEvents() {
     document.addEventListener('keydown', evt => {
       const key = evt.key.toLocaleLowerCase();
