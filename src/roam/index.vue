@@ -8,12 +8,12 @@ import { useRouter } from 'vue-router';
 const showGreet = ref(false);
 const showPointer = ref(false);
 const showAgree = ref(false);
-const audio = new AudioHowl(['talk1.m4a']);
+// const audio = new AudioHowl(['talk1.m4a']);
 
 const router = useRouter();
 
 onMounted(() => {
-  audio.load('talk1.m4a');
+  // audio.load('talk1.m4a');
 });
 
 const handleAgree = () => {

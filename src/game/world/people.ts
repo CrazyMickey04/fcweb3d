@@ -60,6 +60,7 @@ export class People extends EventEmitter {
     });
     this.model.scene.position.x = -50;
     this.model.scene.position.z = 30;
+    this.model.scene.scale.set(0.5, 0.5, 0.5);
     this.scene.add(this.model.scene);
   }
   initSHModel() {
@@ -77,7 +78,7 @@ export class People extends EventEmitter {
     this.scene.add(this.SHmodel.scene);
   }
   initFCModel() {
-    this.FcModel = this.game.resource.getModel('fcbox') as GLTF;
+    this.FcModel = this.game.resource.getModel('fcbox2') as GLTF;
     this.octree.fromGraphNode(this.FcModel.scene);
     this.FcModel.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
@@ -85,7 +86,7 @@ export class People extends EventEmitter {
         item.receiveShadow = true;
       }
     });
-    this.FcModel.scene.name = 'fcbox';
+    this.FcModel.scene.name = 'fcbox2';
     this.FcModel.scene.position.set(35, 0, 306);
     this.FcModel.scene.scale.set(100, 100, 100);
     this.FcModel.scene.scale.set(100, 100, 100);

@@ -65,6 +65,7 @@ export class Resource extends EventEmitter {
         this.emit('itemProgress', url, progress.loaded, progress.total);
       });
       glb.userData.name = name;
+      console.log('glbname', name);
       this.models.push(glb);
       break;
     }
