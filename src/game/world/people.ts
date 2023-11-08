@@ -40,7 +40,7 @@ export class People extends EventEmitter {
     this.initSHModel();
     this.initFCModel();
     this.initModel();
-    this.initVideo();
+    // this.initVideo();
     this.initEvents();
   }
 
