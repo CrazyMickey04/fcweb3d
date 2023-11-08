@@ -78,7 +78,7 @@ export class People extends EventEmitter {
     this.scene.add(this.SHmodel.scene);
   }
   initFCModel() {
-    this.FcModel = this.game.resource.getModel('fcbox2') as GLTF;
+    this.FcModel = this.game.resource.getModel('fcbox3') as GLTF;
     this.octree.fromGraphNode(this.FcModel.scene);
     this.FcModel.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
@@ -86,8 +86,8 @@ export class People extends EventEmitter {
         item.receiveShadow = true;
       }
     });
-    this.FcModel.scene.name = 'fcbox2';
-    this.FcModel.scene.position.set(35, 0, 306);
+    this.FcModel.scene.name = 'fcbox3';
+    this.FcModel.scene.position.set(35, 0.6, 306);
     this.FcModel.scene.scale.set(100, 100, 100);
     this.FcModel.scene.scale.set(100, 100, 100);
     this.scene.add(this.FcModel.scene);

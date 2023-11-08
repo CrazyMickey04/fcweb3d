@@ -34,10 +34,10 @@ export class GameWorld extends EventEmitter {
     console.log(intersects);
     for (const item of intersects) {
       if (item.object.name.includes('Cylinder')) {
-        const resut = confirm("是否进入美孚1号车养护？");
-        if (resut) {
-          window.location.href = window.location.origin + '/roam';
-        }
+        // const resut = confirm("是否进入美孚1号车养护？");
+        // if (resut) {
+        //   window.location.href = window.location.origin + '/roam';
+        // }
         break; // 跳出循环
       }
     }
