@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import * as THREE from 'three';
 import { AnimationAction, AnimationClip, AnimationMixer, BoxGeometry, Mesh, MeshNormalMaterial, Quaternion, Scene, Vector3 } from 'three';
 import { Game } from '../index';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -39,6 +40,7 @@ export class People extends EventEmitter {
     this.initSHModel();
     this.initFCModel();
     this.initModel();
+    this.initVideo();
     this.initEvents();
   }
 
@@ -80,17 +82,58 @@ export class People extends EventEmitter {
   initFCModel() {
     this.FcModel = this.game.resource.getModel('fcbox3') as GLTF;
     this.octree.fromGraphNode(this.FcModel.scene);
+
+    // 创建视频元素
+    const video = document.createElement('video');
+    video.src = 'path/to/video.mp4';
+    video.autoplay = true;
+    video.loop = true;
+    // 创建视频纹理
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    videoTexture.format = THREE.RGBFormat;
+
     this.FcModel.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
         item.castShadow = true;
         item.receiveShadow = true;
+        console.log('fcbox3 name:', item.name)
+        if (item.name === 'videoFC') {
+          debugger
+          item.material.map = videoTexture;
+          item.material.needsUpdate = true;
+        }
       }
     });
+    // // 获取模型中的特定面的几何体
+    // const faceGeometry = model.getObjectByName('videoFace').geometry;
+
     this.FcModel.scene.name = 'fcbox3';
     this.FcModel.scene.position.set(35, 0.6, 306);
     this.FcModel.scene.scale.set(100, 100, 100);
     this.FcModel.scene.scale.set(100, 100, 100);
     this.scene.add(this.FcModel.scene);
+  }
+  initVideo() {
+    // 创建视频元素
+    const video = document.createElement('video');
+    video.src = 'path/to/video.mp4';
+    video.autoplay = true;
+    video.loop = true;
+
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    videoTexture.format = THREE.RGBFormat;
+    // 创建材质
+    const material = new THREE.MeshBasicMaterial({ map: videoTexture });
+    // 创建几何体
+    const geometry = new THREE.PlaneGeometry(4, 8);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(35, 0.6, 306);
+    // 添加到场景中
+    this.scene.add(mesh);
   }
   initEvents() {
     document.addEventListener('keydown', evt => {
