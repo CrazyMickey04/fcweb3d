@@ -40,6 +40,7 @@ export class People extends EventEmitter {
     this.initSHModel();
     this.initFCModel();
     this.initModel();
+    // 单独添加video mesh
     // this.initVideo();
     this.initEvents();
   }
@@ -61,6 +62,7 @@ export class People extends EventEmitter {
       this.animationMap.set(clip.name, action);
     });
     this.model.scene.position.x = -50;
+    this.model.scene.position.y = 0.1;
     this.model.scene.position.z = 30;
     this.model.scene.scale.set(0.5, 0.5, 0.5);
     this.scene.add(this.model.scene);
@@ -84,30 +86,25 @@ export class People extends EventEmitter {
     this.octree.fromGraphNode(this.FcModel.scene);
 
     // 创建视频元素
-    const video = document.createElement('video');
-    video.src = 'path/to/video.mp4';
+    let video = document.getElementById( 'video' );
     video.autoplay = true;
     video.loop = true;
     // 创建视频纹理
     const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBFormat;
-
+    videoTexture.center.set(0.5, 0.5);
+    videoTexture.rotation = -Math.PI / 2;
     this.FcModel.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
         item.castShadow = true;
         item.receiveShadow = true;
-        console.log('fcbox3 name:', item.name)
+        console.log('fcbox3 name:', item.name);
+        // 查找videoFc的面。 videoFc在blender 中建模的时候设置
         if (item.name === 'videoFC') {
-          debugger
           item.material.map = videoTexture;
-          item.material.needsUpdate = true;
+          item.material.needsUpdate = true; // 手动更新材质
         }
       }
     });
-    // // 获取模型中的特定面的几何体
-    // const faceGeometry = model.getObjectByName('videoFace').geometry;
 
     this.FcModel.scene.name = 'fcbox3';
     this.FcModel.scene.position.set(35, 0.6, 306);
@@ -115,23 +112,20 @@ export class People extends EventEmitter {
     this.FcModel.scene.scale.set(100, 100, 100);
     this.scene.add(this.FcModel.scene);
   }
+  // 单独给mesh添加视频
   initVideo() {
     // 创建视频元素
-    const video = document.createElement('video');
-    video.src = 'path/to/video.mp4';
-    video.autoplay = true;
-    video.loop = true;
+    const video = document.getElementById( 'video' );
 
     const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBFormat;
     // 创建材质
     const material = new THREE.MeshBasicMaterial({ map: videoTexture });
-    // 创建几何体
-    const geometry = new THREE.PlaneGeometry(4, 8);
+    // 创建几何体,
+    const geometry = new THREE.PlaneGeometry(4, 3);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(35, 0.6, 306);
+    mesh.rotation.y = Math.PI / 2;
+    console.log(mesh, 'mesh');
     // 添加到场景中
     this.scene.add(mesh);
   }

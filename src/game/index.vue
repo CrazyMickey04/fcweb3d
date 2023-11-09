@@ -5,6 +5,15 @@ import Preload from '@/components/Preload/index.vue';
 <template>
   <div>
     <canvas class="webgl"></canvas>
+    <video 
+      id="video"
+      src="../assets/video.mp4"
+      playsinline
+      webkit-playsinline
+      autoplay
+      loop
+      style="display:none"
+      ></video>
   </div>
   <Preload></Preload>
 </template>
