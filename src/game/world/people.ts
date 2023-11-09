@@ -22,6 +22,10 @@ export class People extends EventEmitter {
   mixer!: AnimationMixer;
   animationMap: Map<string, AnimationAction> = new Map();
   activeAction!: AnimationAction;
+  customer!: GLTF;
+  customerMixer!: AnimationMixer;
+  customerAnimationMap: Map<string, AnimationAction> = new Map();
+  customerActiveAction!: AnimationAction;
   status: PeopleStatus = PeopleStatus.IDLE;
   fadeDuration: number = 0.2;
   directionKeypress: DirectionKeypress = { a: false, w: false, d: false, s: false };
@@ -40,6 +44,7 @@ export class People extends EventEmitter {
     this.initSHModel();
     this.initFCModel();
     this.initModel();
+    this.initCustomer();
     // 单独添加video mesh
     // this.initVideo();
     this.initEvents();
@@ -66,6 +71,29 @@ export class People extends EventEmitter {
     this.model.scene.position.z = 30;
     this.model.scene.scale.set(0.5, 0.5, 0.5);
     this.scene.add(this.model.scene);
+  }
+  initCustomer() {
+    this.customer = this.game.resource.getModel('customer') as GLTF;
+    this.customer.scene.traverse(item => {
+      if ((item as Mesh).isMesh) {
+        item.castShadow = true;
+        item.receiveShadow = true;
+      }
+    });
+    console.log(this.customer);
+    this.customerMixer = new AnimationMixer(this.customer.scene);
+    this.customerMixer.timeScale = 0.001;
+    console.log('customer动画片断',  this.customer.animations);
+    this.customer.animations.forEach(clip => {
+      const action = this.customerMixer.clipAction(clip);
+      this.customerAnimationMap.set(clip.name, action);
+    });
+    // this.customerMixer.clipAction(this.customer.animations[1]).play();
+    this.customer.scene.position.x = -50;
+    this.customer.scene.position.y = 0.1;
+    this.customer.scene.position.z = 30;
+    this.customer.scene.scale.set(0.5, 0.5, 0.5);
+    this.scene.add(this.customer.scene);
   }
   initSHModel() {
     this.SHmodel = this.game.resource.getModel('shanghai') as GLTF;
@@ -187,6 +215,10 @@ export class People extends EventEmitter {
 
   runAnimation() {
     const action = this.animationMap.get(this.status) as AnimationAction;
+    console.log('this.customerAnimationMap:', this.customerAnimationMap);
+    const customerAction = this.customerAnimationMap.get('talking') as AnimationAction;
+    this.customerActiveAction = customerAction;
+    customerAction.reset().fadeIn(0.2).play();
     if (this.activeAction === action) {
       return;
     }
