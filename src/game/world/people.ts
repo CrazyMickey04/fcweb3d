@@ -168,6 +168,14 @@ export class People extends EventEmitter {
         this.status = PeopleStatus.RUN;
         this.runAnimation();
       }
+      // 客服跳舞
+      if (key === 't') {
+        this.customerAnimation('talking');
+      }
+      // 客服跳舞
+      if (key === 'q') {
+        this.customerAnimation('dance');
+      }
       evt.preventDefault();
     });
 
@@ -212,13 +220,13 @@ export class People extends EventEmitter {
     }
     return offsetDirection;
   }
-
+  customerAnimation(type: string) {
+    console.log('this.customerAnimationMap:', this.customerAnimationMap);
+    const customerAction = this.customerAnimationMap.get(type) as AnimationAction;
+    customerAction.reset().play();
+  }
   runAnimation() {
     const action = this.animationMap.get(this.status) as AnimationAction;
-    console.log('this.customerAnimationMap:', this.customerAnimationMap);
-    const customerAction = this.customerAnimationMap.get('talking') as AnimationAction;
-    this.customerActiveAction = customerAction;
-    customerAction.reset().fadeIn(0.2).play();
     if (this.activeAction === action) {
       return;
     }
@@ -233,6 +241,7 @@ export class People extends EventEmitter {
     const camera = this.game.gameCamera.camera;
     const delta = this.game.time.delta;
     this.mixer && this.mixer.update(delta);
+    this.customerMixer && this.customerMixer.update(delta);
     if (this.status === PeopleStatus.WALK || this.status === PeopleStatus.RUN) {
       const angleYCameraDirection = Math.atan2(
         camera.position.x - this.model.scene.position.x,

@@ -12,7 +12,7 @@ type CameraConfig = {
 export class GameCamera extends EventEmitter {
   camera!: PerspectiveCamera;
   game: Game;
-  config: CameraConfig = { fov: 75, aspect: 0, near: 0.1, far: 1000, position: new Vector3(-52, 1, 32) }; // 35, 0.6, 306
+  config: CameraConfig = { fov: 75, aspect: 0, near: 0.1, far: 1000, position: new Vector3(35, 0.6, 306) }; // 35, 0.6, 306  -52, 1, 32
   constructor(config?: CameraConfig) {
     super();
     this.game = Game.getInstance();
