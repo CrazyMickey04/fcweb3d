@@ -204,9 +204,10 @@ export default class Viewer {
   }
 
   private initLight() {
+    // 环境光
     const ambient = new AmbientLight(0xffffff, 0.6);
     this.scene.add(ambient);
-
+    // 平行光
     const light = new THREE.DirectionalLight( 0xffffff );
     light.position.set( 0, 200, 100 );
     light.castShadow = true;
