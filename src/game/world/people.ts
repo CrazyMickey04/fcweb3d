@@ -17,6 +17,7 @@ export class People extends EventEmitter {
   scene: Scene;
   model!: GLTF;
   FcModel!: GLTF;
+  carModel!: GLTF;
   SHmodel!: GLTF;
   octree!: Octree;
   mixer!: AnimationMixer;
@@ -43,15 +44,61 @@ export class People extends EventEmitter {
   init() {
     this.initSHModel();
     this.initFCModel();
-    this.initModel();
+    this.initJayModel();
     this.initCustomer();
+    this.initCar();
     // 单独添加video mesh
     // this.initVideo();
     this.initEvents();
   }
+  initSHModel() {
+    this.SHmodel = this.game.resource.getModel('shanghai') as GLTF;
+    this.octree.fromGraphNode(this.SHmodel.scene);
+    console.log(this.SHmodel);
+    this.SHmodel.scene.traverse(item => {
+      if ((item as Mesh).isMesh) {
+        item.castShadow = true;
+        item.receiveShadow = true;
+      }
+    });
+    this.SHmodel.scene.position.y = 34.42;
+    this.SHmodel.scene.scale.set(100, 100, 100);
+    this.scene.add(this.SHmodel.scene);
+  }
+  initFCModel() {
+    this.FcModel = this.game.resource.getModel('fcbox3') as GLTF;
+    this.octree.fromGraphNode(this.FcModel.scene);
 
-  initModel() {
+    // 创建视频元素
+    const video = document.getElementById( 'video' ) as HTMLVideoElement;
+    video.autoplay = true;
+    video.loop = true;
+    // 创建视频纹理
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.center.set(0.5, 0.5);
+    videoTexture.rotation = -Math.PI / 2;
+    this.FcModel.scene.traverse(item => {
+      if ((item as Mesh).isMesh) {
+        item.castShadow = true;
+        item.receiveShadow = true;
+        console.log('fcbox3 name:', item.name);
+        // 查找videoFc的面。 videoFc在blender 中建模的时候设置
+        if (item.name === 'videoFC') {
+          item.material.map = videoTexture;
+          item.material.needsUpdate = true; // 手动更新材质
+        }
+      }
+    });
+
+    this.FcModel.scene.name = 'fcbox3';
+    this.FcModel.scene.position.set(35, 0.6, 306);
+    this.FcModel.scene.scale.set(100, 100, 100);
+    this.FcModel.scene.scale.set(100, 100, 100);
+    this.scene.add(this.FcModel.scene);
+  }
+  initJayModel() {
     this.model = this.game.resource.getModel('jay_animate_walk2') as GLTF;
+    // 遍历模型
     this.model.scene.traverse(item => {
       if ((item as Mesh).isMesh) {
         item.castShadow = true;
@@ -93,51 +140,13 @@ export class People extends EventEmitter {
     this.customer.scene.scale.set(0.5, 0.5, 0.5);
     this.scene.add(this.customer.scene);
   }
-  initSHModel() {
-    this.SHmodel = this.game.resource.getModel('shanghai') as GLTF;
-    this.octree.fromGraphNode(this.SHmodel.scene);
-    console.log(this.SHmodel);
-    this.SHmodel.scene.traverse(item => {
-      if ((item as Mesh).isMesh) {
-        item.castShadow = true;
-        item.receiveShadow = true;
-      }
-    });
-    this.SHmodel.scene.position.y = 34.42;
-    this.SHmodel.scene.scale.set(100, 100, 100);
-    this.scene.add(this.SHmodel.scene);
+  initCar() {
+    this.carModel = this.game.resource.getModel('Lamborghini') as GLTF;
+    this.carModel.scene.scale.set(0.6, 0.6, 0.6);
+    this.carModel.scene.position.set(39, 0.05, 306);
+    this.scene.add(this.carModel.scene);
   }
-  initFCModel() {
-    this.FcModel = this.game.resource.getModel('fcbox3') as GLTF;
-    this.octree.fromGraphNode(this.FcModel.scene);
-
-    // 创建视频元素
-    let video = document.getElementById( 'video' );
-    video.autoplay = true;
-    video.loop = true;
-    // 创建视频纹理
-    const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.center.set(0.5, 0.5);
-    videoTexture.rotation = -Math.PI / 2;
-    this.FcModel.scene.traverse(item => {
-      if ((item as Mesh).isMesh) {
-        item.castShadow = true;
-        item.receiveShadow = true;
-        console.log('fcbox3 name:', item.name);
-        // 查找videoFc的面。 videoFc在blender 中建模的时候设置
-        if (item.name === 'videoFC') {
-          item.material.map = videoTexture;
-          item.material.needsUpdate = true; // 手动更新材质
-        }
-      }
-    });
-
-    this.FcModel.scene.name = 'fcbox3';
-    this.FcModel.scene.position.set(35, 0.6, 306);
-    this.FcModel.scene.scale.set(100, 100, 100);
-    this.FcModel.scene.scale.set(100, 100, 100);
-    this.scene.add(this.FcModel.scene);
-  }
+  
   // 单独给mesh添加视频
   initVideo() {
     // 创建视频元素

@@ -255,7 +255,7 @@ const createSpotlight = (color) => {
 
 // 设置图片背景
 const spotLight1 = createSpotlight('#ffffff');
-const texture = new THREE.TextureLoader().load('src/assets/imgs/奥特曼.jpg');
+const texture = new THREE.TextureLoader().load('src/assets/images/carshowroom.jpg');
 spotLight1.position.set(0, 3, 0);
 spotLight1.target.position.set(-10, 3, 10);
 spotLight1.map = texture;

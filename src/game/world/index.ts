@@ -29,15 +29,16 @@ export class GameWorld extends EventEmitter {
     const vector = new THREE.Vector2(pointer.x, pointer.y);
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(vector, this.game.gameCamera && this.game.gameCamera.camera);
-    const intersects = raycaster.intersectObjects(this.people.FcModel.scenes);
-    console.log(this.people.FcModel.scenes);
+    const intersects = raycaster.intersectObjects(this.people.carModel.scenes);
+    console.log(this.people.carModel.scenes);
     console.log(intersects);
     for (const item of intersects) {
-      if (item.object.name.includes('Cylinder')) {
-        // const resut = confirm("是否进入美孚1号车养护？");
-        // if (resut) {
-        //   window.location.href = window.location.origin + '/roam';
-        // }
+      console.log('click 模型的name', item.object.name);
+      if (item.object.name.includes('Object_')) {
+        const resut = confirm("是否进入美孚1号改装定制？");
+        if (resut) {
+          window.location.href = window.location.origin + '/carshow';
+        }
         break; // 跳出循环
       }
     }
