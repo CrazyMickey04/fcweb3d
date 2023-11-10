@@ -88,10 +88,8 @@ export class People extends EventEmitter {
       const action = this.customerMixer.clipAction(clip);
       this.customerAnimationMap.set(clip.name, action);
     });
-    // this.customerMixer.clipAction(this.customer.animations[1]).play();
-    this.customer.scene.position.x = -50;
-    this.customer.scene.position.y = 0.1;
-    this.customer.scene.position.z = 30;
+    this.customerAnimation('idle');
+    this.customer.scene.position.set(36, 0.3, 302);
     this.customer.scene.scale.set(0.5, 0.5, 0.5);
     this.scene.add(this.customer.scene);
   }
@@ -223,7 +221,12 @@ export class People extends EventEmitter {
   customerAnimation(type: string) {
     console.log('this.customerAnimationMap:', this.customerAnimationMap);
     const customerAction = this.customerAnimationMap.get(type) as AnimationAction;
-    customerAction.reset().play();
+    customerAction.enabled = true; // 确保动画启用
+    customerAction.setEffectiveTimeScale(1); // 设置时间缩放
+    customerAction.setEffectiveWeight(1); // 设置权重
+    const prevAction = this.customerAnimationMap.get(type === 'talking'?'dance': 'talking');
+    customerAction.crossFadeFrom(prevAction, 0, false); // 立即停止前一个动画
+    customerAction.play(); // 播放新的动画
   }
   runAnimation() {
     const action = this.animationMap.get(this.status) as AnimationAction;
