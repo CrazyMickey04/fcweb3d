@@ -32,6 +32,9 @@
         </Panel>
       </div>
       <Sence></Sence>
+      <div class="enter_btn" @click="enter">
+        立即进入
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +43,11 @@
 import Sence from './Sence.vue';
 import Panel from './components/Panel/index.vue';
 import LineCharts from './components/Charts/LineChart.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const enter = () => {
+  router.push('/game');
+};
 </script>
 
 <style scope>
@@ -88,5 +96,30 @@ import LineCharts from './components/Charts/LineChart.vue';
   background: url('@/assets/images/header_bg.png');
   background-repeat: no-repeat;
   background-size: 100% 1rem;
+}
+@keyframes scale {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}
+.enter_btn {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  margin-left: -50px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  &:hover {
+    color: #009fff;
+    animation: scale 1s infinite;
+    transform-origin: center;
+  }
 }
 </style>
