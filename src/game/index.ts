@@ -38,13 +38,16 @@ export class Game {
 
     this.initConfig();
     this.initTime();
+    // 资源加载路径
     this.initResource();
+    // webgl容器
     this.initContainer();
     this.initScene();
     this.initCamera();
     this.initRenderer();
     this.initLight();
     this.initControls();
+    // 初始化主体场景类实例
     this.initWorld();
 
     this.update();

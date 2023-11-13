@@ -48,7 +48,9 @@ export class Loaders extends EventEmitter {
     if (!this.gltfLoader) {
       this.gltfLoader = this.getGLTFLoader();
     }
+    // DRACOLoader是Three.js提供的一个加载器，用于加载和解码使用DRACO算法压缩的模型数据。
     const dracoLoader = new DRACOLoader();
+    // 设置DRACO解码器的路径。这个路径应该指向包含DRACO解码器文件的目录。
     dracoLoader.setDecoderPath('/draco/');
     this.gltfLoader.setDRACOLoader(dracoLoader);
     return this.gltfLoader;

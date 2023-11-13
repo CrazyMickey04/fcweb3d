@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { AnimationAction, AnimationClip, AnimationMixer, BoxGeometry, Mesh, MeshNormalMaterial, Quaternion, Scene, Vector3 } from 'three';
 import { Game } from '../index';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+// 八叉树是一种用于在三维空间中存储和查找对象的数据结构。在这个数据结构中，空间被递归地划分为八个子空间，每个子空间可以包含一些对象。这种数据结构可以大大提高空间查询的效率，例如碰撞检测、视锥体裁剪等。
 import { Octree } from 'three/examples/jsm/math/Octree';
 enum PeopleStatus {
   IDLE = 'Armature|mixamo.com|Layer0',
@@ -12,7 +13,7 @@ enum PeopleStatus {
 
 type DirectionKeypress = { a: boolean, w: boolean, d: boolean, s: boolean };
 
-export class People extends EventEmitter {
+export class Model extends EventEmitter {
   game: Game;
   scene: Scene;
   model!: GLTF;
@@ -53,6 +54,7 @@ export class People extends EventEmitter {
   }
   initSHModel() {
     this.SHmodel = this.game.resource.getModel('shanghai') as GLTF;
+    // fromGraphNode方法会遍历图形节点及其所有子节点，并将它们添加到八叉树中。
     this.octree.fromGraphNode(this.SHmodel.scene);
     console.log(this.SHmodel);
     this.SHmodel.scene.traverse(item => {
