@@ -7,7 +7,7 @@ const musicIsOpen: any = ref(false);
 let audio: any = null;
 let sound: any = null;
 onMounted(() => {
-  sound = 'bgm.ogg';
+  sound = 'jay1943.m4a';
   audio = new AudioHowl([sound]);
   audio.load(sound);
   
