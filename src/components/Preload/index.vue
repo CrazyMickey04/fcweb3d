@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Game } from '@/game';
-import { AudioHowl } from '@/game/utils/audio';
 import { onMounted, ref } from 'vue';
 
 const progress = ref(0);
@@ -18,13 +17,10 @@ const handleStart = () => {
   status.value = 2;
   setTimeout(() => {
     started.value = true;
-    const sound = 'bgm.ogg';
-    const audio = new AudioHowl([sound]);
-    audio.load(sound).play(sound);
     game.start();
     emits('start', game);
   });
-}
+};
 onMounted(() => {
   game = new Game('canvas.webgl');
   game.resource.on('itemProgress', (url: string, itemLoaded: number, itemTotal: number) => {

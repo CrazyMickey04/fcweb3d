@@ -13,7 +13,7 @@ export class GameCamera extends EventEmitter {
   camera!: PerspectiveCamera;
   game: Game;
   // fov：视野角度 aspect：宽高比 near：近裁剪面 far：远裁剪面 position：相机位置
-  config: CameraConfig = { fov: 75, aspect: 0, near: 0.1, far: 1000, position: new Vector3(-52, 1, 32) }; // 35, 0.6, 306  -52, 1, 32
+  config: CameraConfig = { fov: 75, aspect: 0, near: 0.1, far: 1000, position: new Vector3(35, 0.6, 306) }; // 35, 0.6, 306  -52, 1, 32
   constructor(config?: CameraConfig) {
     super();
     this.game = Game.getInstance();

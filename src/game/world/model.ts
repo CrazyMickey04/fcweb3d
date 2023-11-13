@@ -75,6 +75,7 @@ export class Model extends EventEmitter {
     const video = document.getElementById( 'video' ) as HTMLVideoElement;
     video.autoplay = true;
     video.loop = true;
+    video.play();
     // 创建视频纹理
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.center.set(0.5, 0.5);
@@ -91,7 +92,6 @@ export class Model extends EventEmitter {
         }
       }
     });
-
     this.FcModel.scene.name = 'fcbox3';
     this.FcModel.scene.position.set(35, 0.6, 306);
     this.FcModel.scene.scale.set(100, 100, 100);

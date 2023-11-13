@@ -47,6 +47,14 @@ export class AudioHowl {
     howl.play();
     return this;
   }
+  pause(name: string) {
+    const howl = this.getHowl(name);
+    if (!howl) {
+      return this;
+    }
+    howl.pause();
+    return this;
+  }
 
   update() { }
 }
