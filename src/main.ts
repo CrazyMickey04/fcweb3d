@@ -36,6 +36,12 @@ const router = createRouter({
       name: 'carshow',
       meta: { title: 'carshow' },
     },
+    {
+      path: '/initDemo',
+      component: () => import('@/initDemo/index.vue'),
+      name: 'roam',
+      meta: { title: 'roam' },
+    },
   ],
 });
 const app = createApp(App);
