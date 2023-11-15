@@ -1,14 +1,11 @@
 <template>
-    <div ref="mount"></div>
-  </template>
-  
-<script setup >
+  <div ref="mount"></div>
+</template>
+<script setup>
 import { onMounted, ref } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-  
 const mount = ref(null);
-  
 onMounted(() => {
   // 创建一个场景
   const scene = new THREE.Scene();
@@ -32,7 +29,6 @@ onMounted(() => {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   mount.value.appendChild(renderer.domElement);
-  
   
   // 创建控制器
   const controls = new OrbitControls(camera, renderer.domElement);
